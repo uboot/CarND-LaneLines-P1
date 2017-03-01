@@ -8,7 +8,7 @@ The goals / steps of this project are the following:
 
 ### Reflection
 
-My pipeline consists of 5 steps. 
+My pipeline consists of the following 5 steps:
 
 #### Color selection
 
@@ -18,7 +18,7 @@ In the color selection step only pixels with with high red and green values are 
 
 Next, the image is converted to grayscale.
 
-##### Edge detection
+#### Edge detection
 
 For the edge detection the image is first blurred with a Gaussian kernel and the Canny edge detector is applied.
 
@@ -28,7 +28,7 @@ Then all pixels outside a given polygon are masked out, i.e. they are set to bla
 
 #### Line detection
 
-Next, the lane lines are detected in the masked edge image. First, the coordinates (i.e. the two endpoints) of all line segments in the image are computed. Then, the set of line segments is split into line segments with positive and negative slope. In general, this corresponds to the right and left lane lines. Next, the line segments for each side are "merged" into on line. This is done by computing the affine functions x = k*y + d which coincide with the each line segment. Horizonal lines (k would be infinity) are discarded. Then the weighted average over the k's and d's of all line segments of a class (positive and negative) is computed. The weights are given by the length of the original line segment, i.e. long line segments are more significant than short ones. Finally, there are two averaged functions of the type x = kmean*y + dmean. These functions are used to compute the endpoints of the two "merged" lane lines by evaluating the functions for suitable values of y. These values are the bottom of the image and the top of the polygon used for masking. In the last step the lane lines are drawn into the line image.
+Next, the lane lines are detected in the masked edge image. First, the coordinates (i.e. the two endpoints) of all line segments in the image are computed. Then, the set of line segments is split into line segments with positive and negative slope. In general, this corresponds to the right and left lane lines. Next, the line segments for each side are "merged" into on line. This is done by computing the affine functions `x = k*y + d` which coincide with the each line segment. Horizonal lines (`k` would be infinity) are discarded. Then the weighted average over the `k`'s and `d`'s of all line segments of a class (positive and negative) is computed. The weights are given by the length of the original line segment, i.e. long line segments are more significant than short ones. Finally, there are two averaged functions of the type `x = kmean*y + dmean`. These functions are used to compute the endpoints of the two "merged" lane lines by evaluating the functions for suitable values of `y`. These values are the bottom of the image and the top of the polygon used for masking. In the last step the lane lines are drawn into the line image.
 
 ### Potential shortcomings
 
@@ -40,8 +40,8 @@ For computing the average of the right and left lane segments a relativly simple
 
 ### Possible improvements
 
-To overcome the dependence on the overall brightness of the image one could try to normalize the image contrast (e.g. cv2.equalizeHist()).
+To overcome the dependence on the overall brightness of the image one could try to normalize the image contrast (e.g. `cv2.equalizeHist()`).
 
-Use more robust statistics for the computation of the averaged line segments, e.g. the trimmed mean. Moreover, k is not the best representation of the line slop as it tends to infinity for horizontal lines. Representing the slope by its angle should lead to more natural mean slope values.
+Use more robust statistics for the computation of the averaged line segments, e.g. the trimmed mean. Moreover, `k` is not the best representation of the line slop as it tends to infinity for horizontal lines. Representing the slope by its angle should lead to more natural mean slope values.
 
 Finally, for the detection in frame sequences it would be benificial to the consider the position of the lines in the previous frames to improve the robustness of the lane detection. One could consider the line segments of previous frames in the computation of the mean line segments (multiplying them with weights which increase with the age of the frame).
